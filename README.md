@@ -24,21 +24,20 @@ XML configuration file
 The setup of the application is taking place in an XML file, pretty much like a J2EE application.
 Here is a simple exemple:
 
-`
-<cat-application>
-    
-    <title>CMA</title>
-    
-    <group name="default" top="">
-        
-        <view class="Accueil" name="accueil" preload="yes">
-            <route action="creer" destination="Creer" />
-        </view>
-    
-        <view class="Creer" name="creer" title="Creer !"/>
-        
-    </group>
-        
-</cat-application>
 
-`
+	<cat-application>
+    
+		<title>CMA</title>
+    
+		<group name="default" top="">
+        
+			<view class="Accueil" name="accueil" preload="yes">
+            	 <route action="creer" destination="Creer" />
+        	</view>
+    
+			<view class="Creer" name="creer" title="Creer !"/>
+        
+    	</group>
+        
+	</cat-application>
+
