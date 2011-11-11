@@ -7,6 +7,7 @@ FCat is a simple Objective-C framework designed to ease devellopment of
 IOS applications.
 
 It provides the following features:
+
 *  View creation and lifecycle management
 *  Easy navigation management
 *  Easy tab managment
