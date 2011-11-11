@@ -29,7 +29,7 @@ Here is a simple exemple:
     
 		<title>CMA</title>
     
-		<group name="default" top="">
+		<group name="default">
         
 			<view class="Accueil" name="accueil" preload="yes">
             	 <route action="creer" destination="Creer" />
