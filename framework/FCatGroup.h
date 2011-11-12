@@ -10,13 +10,14 @@
 #import <UIKit/UIKit.h>
 #import "FCatView.h"
 
-@interface FCatGroup : NSObject
-{
-    UINavigationController *_navigation;
-}
+@interface FCatGroup : NSObject <UINavigationControllerDelegate>
 
+@property (nonatomic, retain) UINavigationController *navigation;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSMutableDictionary *views;
+@property (nonatomic, retain) NSMutableDictionary *views; /* obj: view, key: name */
 @property (nonatomic, retain) FCatView *top;
+
+-(void) setNavigationRoot;
+-(void) moveToView:(NSString*)dest;
 
 @end

@@ -10,24 +10,36 @@
 
 @implementation FCatGroup
 
-@synthesize name, views, top;
+@synthesize navigation, name, views, top;
 
--(id) init
+-(void) setNavigationRoot
 {
-    if((self = [super init]))
-    {
-        _navigation = [[UINavigationController alloc] init];
-        
+    navigation = [[UINavigationController alloc] initWithRootViewController:top.controllerView];
+    navigation.delegate = self;
+}
+
+-(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    for (NSString* viewName in views) {
+        FCatView *view = [views objectForKey:viewName];
+        if (view.controllerView == viewController)
+        {
+            [view setupView];
+            return;
+        }
     }
-    return self;
+}
+
+-(void)moveToView:(NSString*)dest
+{
+    FCatView *v = [views objectForKey:dest];
+    if (v == nil)
+        [NSException raise:@"FCat: FCatGroup" format:@"View named %@ could not be found!", dest];
+    [navigation pushViewController:v.controllerView animated:YES];
 }
 
 - (void)dealloc
 {
-    [_navigation release];
-    [name release];
-    [views release];
-    [top release];
     [super dealloc];
 }
 

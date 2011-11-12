@@ -12,6 +12,23 @@
 
 @synthesize application;
 
+-(id) init
+{
+    if ((self = [super init]))
+    {
+        _nodesWithAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"addRoute", @"route", 
+                                @"addView", @"view",
+                                @"addGroup", @"group",
+                                nil];
+        _nodesWithValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                           @"setApplicationTitle", @"title",
+                           @"setupGroupRoot", @"group",
+                           nil];
+    }
+    return self;
+}
+
 -(void)setApplicationTitle
 {
     application.title = _currentString;
@@ -25,15 +42,22 @@
 
 -(void)addView
 {
-    _currentView = [[FCatView alloc] init];
+    _currentView = [[FCatView alloc] initWithGroup:_currentGroup];
     _currentView.name = [_attributes objectForKey:@"name"];
     _currentView.title = [_attributes objectForKey:@"title"];
     _currentView.controllerName = [_attributes objectForKey:@"class"];
-    if ([(NSString*)[_attributes objectForKey:@"preload"] isEqual:@"1"]) 
-        _currentView.controllerView = [[NSClassFromString(_currentView.controllerName) alloc] 
-                                       initWithNibName:_currentView.controllerName bundle:nil];
-    _currentGroup.top = _currentGroup.top == nil ? _currentGroup.top = _currentView : _currentGroup.top;
+    _currentView.routes = [[NSMutableDictionary alloc] init];
+    UIViewController *c = [[NSClassFromString(_currentView.controllerName) alloc] 
+                           initWithNibName:_currentView.controllerName bundle:nil];
+    [c.navigationItem setTitle:_currentView.title];
+    _currentView.controllerView = c;
+    _currentGroup.top = _currentGroup.top == nil ? _currentView : _currentGroup.top;
     [_currentGroup.views setObject:_currentView forKey:_currentView.name];
+}
+
+-(void)setupGroupRoot
+{
+    [_currentGroup setNavigationRoot];
 }
 
 -(void)addGroup
@@ -42,7 +66,7 @@
     _currentGroup.top = [_attributes objectForKey:@"top"];
     _currentGroup.name = [_attributes objectForKey:@"name"];
     _currentGroup.views = [[NSMutableDictionary alloc] init];
-    [application.groups addObject:_currentView];
+    [application.groups addObject:_currentGroup];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
@@ -79,24 +103,12 @@ qualifiedName:(NSString *)qName
 
 -(void)parseConfig:(NSString*)configFile
 {
-    _nodesWithAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                @"addRoute", @"route", 
-                                                @"addView", @"view",
-                                                @"addGroupe", @"groupe",
-                                                nil];
-    _nodesWithValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"setApplicationTitle", @"title", 
-                                            nil];
-    if (_currentString)
-        [_currentString release];
-    
     application = [[FCatApplication alloc] init];
     _currentString = [[NSMutableString alloc] init];
     NSString *path = [[NSBundle mainBundle] pathForResource:configFile ofType:@"xml"];
     NSData *content = [NSData dataWithContentsOfFile:path];
-    [path release];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:content];
-    [content release];
+
     [parser setDelegate:self];
     [parser setShouldProcessNamespaces:NO];
     [parser setShouldReportNamespacePrefixes:NO];
@@ -112,8 +124,17 @@ qualifiedName:(NSString *)qName
          [[parser parserError] localizedDescription]];
     }
     [parser release];
-    [_nodesWithAttributes release];
-    [_nodesWithValue release];
+    if (_currentView)
+        [_currentView release];
+    if (_currentGroup)
+        [_currentGroup release];
 }
+
+- (void)dealloc
+{
+    [application release];
+    [super dealloc];
+}
+
 
 @end

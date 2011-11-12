@@ -17,25 +17,25 @@
 {
     if ((self = [super init]))
     {
-        _tabBar = [[UITabBarController alloc] init];
+        groups = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 -(UIViewController*) getApplicationTopView
 {
-    if ([groups count] > 1)
+    if ([groups count] > 1 && _tabBar == nil)
     {
         _tabBar = [[UITabBarController alloc] init];
     }
-    return ((FCatGroup*)[groups objectAtIndex:0]).top.controllerView;
+    FCatGroup *group = [groups objectAtIndex:0];
+    return group.navigation;
 }
 
 - (void)dealloc
 {
-    [_tabBar release];
-    [title release];
-    [groups release];
+    //[_tabBar release];
+    //[title release];
     [super dealloc];
 }
 

@@ -9,15 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class FCatGroup;
+
 @interface FCatView : NSObject
 {
-
+    FCatGroup *_group;
+    NSMutableDictionary *_eventLinks;  /* obj: UIControl, key: dest */
 }
 
 @property (nonatomic, retain) UIViewController *controllerView;
 @property (nonatomic, retain) NSString *controllerName;
-@property (nonatomic, retain) NSMutableDictionary *routes;
+@property (nonatomic, retain) NSMutableDictionary *routes; /* obj: destination, key: action */
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *title;
+
+-(id) initWithGroup:(FCatGroup*)group;
+-(void)moveOnSelect:(id)sender event:(id)event;
+-(void)setupView;
 
 @end

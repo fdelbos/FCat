@@ -11,10 +11,8 @@
 #import "FCatApplication.h"
 
 @interface FCat : NSObject
-{
-    UIWindow *_window;
-    FCatApplication *_application;
-}
+
+@property (nonatomic, retain) FCatApplication *application;
 
 +(FCat*) get;
 -(void) startWithFile:(NSString*)configFile andWindow:(UIWindow*) window;

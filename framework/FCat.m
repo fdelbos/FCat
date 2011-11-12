@@ -13,6 +13,8 @@
 
 static FCat *_instance;
 
+@synthesize application;
+
 +(FCat*) get
 {
     @synchronized([FCat class])
@@ -48,18 +50,10 @@ static FCat *_instance;
 {
     FCatCfgParser *parser = [[FCatCfgParser alloc] init];
     [parser parseConfig:configFile];
-    _application = parser.application;
-    _window = window;
-    [_window addSubview:[_application getApplicationTopView].view];
-    [_window makeKeyAndVisible];
+    application = parser.application;
+    window.rootViewController = [application getApplicationTopView];
+    [window makeKeyAndVisible];
     [parser release];
-}
-
-- (void)dealloc
-{
-    [_window release];
-    [_application release];
-    [super dealloc];
 }
 
 
