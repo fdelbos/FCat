@@ -1,6 +1,6 @@
 //
 //  FCatWebView.h
-//  CMA
+//  FCat
 //
 //  Created by Frederic Delbos on 11/12/11.
 //  Copyright (c) 2011 Delbos Consulting. All rights reserved.
@@ -12,9 +12,11 @@
 {
     UIBarButtonItem *_top;
 }
-@property (retain, nonatomic) IBOutlet UIWebView *webView;
 
--(void)setTopButton;
--(void)displayHtml:(NSString*)fileName;
+@property (retain, nonatomic) IBOutlet UIWebView *webView;
+@property BOOL upButton;
+@property (nonatomic, retain) NSString *htmlFile;
+
+-(void)backToTop;
 
 @end

@@ -3,14 +3,14 @@ FCat Framework for IOS
 
 Introduction
 ------------
-FCat is a simple Objective-C framework designed to ease devellopment of
+FCat is a simple Objective-C framework designed to ease development of
 IOS applications.
 It provides the following features:
 
 *  Easy configuration with xml
 *  View creation and lifecycle management
 *  Easy navigation management
-*  Easy tab managment
+*  Easy tab management
 *  Simple to use generic views
 
 
@@ -22,7 +22,7 @@ to download the archive, extract it and drop it to your XCode project.
 XML configuration file
 ----------------------
 The setup of the application is taking place in an XML file, pretty much like a J2EE application.
-Here is a simple exemple:
+Here is a simple example:
 
 
 	<cat-application>

@@ -1,6 +1,6 @@
 //
 //  FCatGroup.h
-//  CMA
+//  FCat
 //
 //  Created by Frederic Delbos on 11/11/11.
 //  Copyright (c) 2011 Delbos Consulting. All rights reserved.

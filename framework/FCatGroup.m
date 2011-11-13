@@ -1,6 +1,6 @@
 //
 //  FCatGroup.m
-//  CMA
+//  FCat
 //
 //  Created by Frederic Delbos on 11/11/11.
 //  Copyright (c) 2011 Delbos Consulting. All rights reserved.
@@ -20,11 +20,12 @@
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    for (NSString* viewName in views) {
+    for (NSString* viewName in views)
+    {
         FCatView *view = [views objectForKey:viewName];
         if (view.controllerView == viewController)
         {
-            [view setupView];
+            [view setupViewForDisplay];
             return;
         }
     }

@@ -1,6 +1,6 @@
 //
 //  FCatWebView.m
-//  CMA
+//  FCat
 //
 //  Created by Frederic Delbos on 11/12/11.
 //  Copyright (c) 2011 Delbos Consulting. All rights reserved.
@@ -11,6 +11,8 @@
 @implementation FCatWebView
 
 @synthesize webView;
+@synthesize upButton;
+@synthesize htmlFile;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -19,6 +21,7 @@
     {
         self.webView.delegate = self;
         self.webView.scalesPageToFit = YES;
+        self.upButton = NO;
     }
     return self;
 }
@@ -39,23 +42,21 @@
 
 -(void)setTopButton
 {
-    if (_top)
-        return;
-    _top = [[UIBarButtonItem alloc]
-            initWithImage:[UIImage imageNamed:@"up.png"]
+    UIBarButtonItem *top = [[UIBarButtonItem alloc]
+            initWithImage:[UIImage imageNamed:@"fcat_up.png"]
             style:UIBarButtonItemStyleBordered
             target:self
             action:@selector(backToTop)];
-    self.navigationItem.rightBarButtonItem = _top;
+    self.navigationItem.rightBarButtonItem = top;
 }
 
--(void)displayHtml:(NSString*)fileName
+-(void)displayHtml
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:fileName ofType:@"html"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:htmlFile ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];
     if (data == nil)
         [NSException raise:@"FCat: FCatWebView" 
-                    format:@"can't find file to display: %@.html", fileName];
+                    format:@"can't find file to display: %@.html", htmlFile];
 
     NSString *bpath = [[NSBundle mainBundle] bundlePath];
     [webView    loadData:data
@@ -69,7 +70,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    if (upButton == YES)
+        [self setTopButton];
+    if (htmlFile)
+        [self displayHtml];
 }
 
 - (void)viewDidUnload

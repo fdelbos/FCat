@@ -1,6 +1,6 @@
 //
 //  FCatView.m
-//  CMA
+//  FCat
 //
 //  Created by Frederic Delbos on 11/10/11.
 //  Copyright (c) 2011 Delbos Consulting. All rights reserved.
@@ -12,7 +12,7 @@
 
 @implementation FCatView
 
-@synthesize controllerName, controllerView, routes, name, title;
+@synthesize controllerName, controllerView, routes, name, title, decorators;
 
 -(id) initWithGroup:(FCatGroup*)group
 {
@@ -38,7 +38,7 @@
     UIControl *btn = [self.controllerView valueForKey:control];
     if (btn == nil)
         [NSException raise:@"FCat: FCatView" 
-                    format:@"UIControl %@ not found in controller of type: %@ !", 
+                    format:@"UIControl %@ not found in controller of name: %@ !", 
                     control, self.controllerName];
     [btn addTarget:self 
             action:@selector(moveOnSelect:event:) 
@@ -46,7 +46,7 @@
     [_eventLinks setObject:btn forKey:dest];
 }
 
--(void)setupView
+-(void)setupViewForDisplay
 {
     if (_eventLinks != nil)
         return;
