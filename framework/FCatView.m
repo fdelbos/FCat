@@ -9,6 +9,7 @@
 #import "FCatView.h"
 #import "Accueil.h"
 #import "FCatGroup.h"
+#import "FCatDecorator.h"
 
 @implementation FCatView
 
@@ -19,6 +20,7 @@
     if ((self = [super init]))
     {
         _group = group;
+        decorators = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -46,13 +48,16 @@
     [_eventLinks setObject:btn forKey:dest];
 }
 
--(void)setupViewForDisplay
+-(void)controllerIsDisplayed
 {
-    if (_eventLinks != nil)
-        return;
-    _eventLinks = [[NSMutableDictionary alloc] init];
-    for (NSString *control in routes)
-        [self addMoveAction:control move:[routes objectForKey:control]];
+    if (_eventLinks == nil)
+    {
+        _eventLinks = [[NSMutableDictionary alloc] init];
+        for (NSString *control in routes)
+            [self addMoveAction:control move:[routes objectForKey:control]];
+    }
+    for (id <FCatDecorator> decorator in decorators)
+        [decorator controllerIsDisplayed];
 }
 
 - (void)dealloc

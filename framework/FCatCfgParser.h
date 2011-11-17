@@ -10,6 +10,7 @@
 #import "FCatApplication.h"
 #import "FCatView.h"
 #import "FCatGroup.h"
+#import "../decorators/FCatDecorator.h"
 
 @interface FCatCfgParser : NSObject <NSXMLParserDelegate>
 {
@@ -19,7 +20,10 @@
     NSDictionary *_nodesWithAttributes;
     NSDictionary *_nodesWithValue;
     NSDictionary *_attributes;
-    NSDictionary *_fcatViews;
+    NSMutableDictionary *_fcatViews;
+    
+    NSMutableArray *_fcatDecorators;
+    id <FCatDecorator> _currentDecorator;
 }
 
 @property (nonatomic, retain) FCatApplication *application;

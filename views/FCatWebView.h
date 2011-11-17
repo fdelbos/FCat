@@ -15,7 +15,7 @@
 
 @property (retain, nonatomic) IBOutlet UIWebView *webView;
 @property BOOL upButton;
-@property (nonatomic, retain) NSString *htmlFile;
+@property (nonatomic, copy) NSString *htmlFile;
 
 -(void)backToTop;
 

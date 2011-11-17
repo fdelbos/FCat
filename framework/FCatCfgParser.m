@@ -28,9 +28,16 @@
                            @"setupGroupRoot", @"group",
                            @"setTextInputScroller", @"textInputScroller",
                            @"addTextInputField", @"textInputField",
+                           @"endDecorator", @"decorator",
                            nil];
-        _fcatViews = [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"setupWebView", @"FCatWebView", nil];
+        _fcatViews = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      @"setupWebView", @"FCatWebView", 
+                      nil];
+        
+        _fcatDecorators = [NSMutableArray arrayWithObjects:
+                           @"FCatTextInputDecorator", 
+                           nil];
+        _currentDecorator = nil;
     }
     return self;
 }
@@ -56,6 +63,21 @@
     NSString *up = [_attributes objectForKey:@"up"];
     if([up isEqualToString:@"yes"])
         ((FCatWebView*)_currentView.controllerView).upButton = YES;
+}
+
+-(void)addDecorator
+{
+    NSString *className = [_attributes objectForKey:@"class"];
+    if (className == nil)
+        [NSException raise:@"FCat: FCatCfgParser" 
+                    format:@"Decorator must have a class attribute "];
+    _currentDecorator =  [[NSClassFromString(className) alloc] initWithController:_currentView.controllerView];
+}
+
+-(void)endDecorator
+{
+    [_currentView.decorators addObject:_currentDecorator];
+    _currentDecorator = nil;
 }
 
 -(void)addView
@@ -94,6 +116,8 @@
     _currentGroup = [[FCatGroup alloc] init];
     _currentGroup.top = [_attributes objectForKey:@"top"];
     _currentGroup.name = [_attributes objectForKey:@"name"];
+    _currentGroup.title = [_attributes objectForKey:@"title"];
+    _currentGroup.image = [_attributes objectForKey:@"image"];
     _currentGroup.views = [[NSMutableDictionary alloc] init];
     [application.groups addObject:_currentGroup];
 }
@@ -109,6 +133,11 @@
 qualifiedName:(NSString *)qName 
    attributes:(NSDictionary *)attributeDict
 {
+    if (![elementName isEqualToString:@"decorator"] && _currentDecorator != nil)
+    {
+        [_currentDecorator addElement:elementName withAttribues:attributeDict];
+        return;
+    }
     _attributes = attributeDict;
     NSString *function;
     if((function = [_nodesWithAttributes objectForKey:elementName]))
@@ -122,12 +151,21 @@ qualifiedName:(NSString *)qName
  namespaceURI:(NSString *)namespaceURI 
 qualifiedName:(NSString *)qName
 {
-    NSString *function;
-    if((function = [_nodesWithValue objectForKey:elementName]))
+    if (!_currentDecorator || [elementName isEqualToString:@"decorator"])
     {
-        SEL selector = NSSelectorFromString(function);
-        [self performSelector:selector];
+        NSString *function;
+        if((function = [_nodesWithValue objectForKey:elementName]))
+        {
+            SEL selector = NSSelectorFromString(function);
+            [self performSelector:selector];
+        }
     }
+    else
+    {
+        if (_currentDecorator != nil)
+            [_currentDecorator endElement:elementName withValue:_currentString];
+    }
+    [_currentString setString:@""];
 }
 
 -(void)parseConfig:(NSString*)configFile

@@ -10,7 +10,7 @@
 
 @implementation FCatGroup
 
-@synthesize navigation, name, views, top;
+@synthesize navigation, name, views, top, image, title;
 
 -(void) setNavigationRoot
 {
@@ -25,7 +25,7 @@
         FCatView *view = [views objectForKey:viewName];
         if (view.controllerView == viewController)
         {
-            [view setupViewForDisplay];
+            [view controllerIsDisplayed];
             return;
         }
     }

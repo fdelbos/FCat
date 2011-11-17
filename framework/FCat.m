@@ -13,7 +13,6 @@
 
 static FCat *_instance;
 
-@synthesize application;
 
 +(FCat*) get
 {
@@ -50,11 +49,21 @@ static FCat *_instance;
 {
     FCatCfgParser *parser = [[FCatCfgParser alloc] init];
     [parser parseConfig:configFile];
-    application = parser.application;
-    window.rootViewController = [application getApplicationTopView];
+    _application = parser.application;
+    [_application retain];
+    window.rootViewController = [_application getApplicationTopView];
     [window makeKeyAndVisible];
     [parser release];
 }
 
+-(void)moveToView:(NSString*)name
+{
+    [[_application getCurrentGroup] moveToView:name];
+}
+
+-(FCatView*)getViewByName:(NSString*)name
+{
+    return [[_application getCurrentGroup].views objectForKey:name];
+}
 
 @end

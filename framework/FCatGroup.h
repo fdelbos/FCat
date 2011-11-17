@@ -13,9 +13,11 @@
 @interface FCatGroup : NSObject <UINavigationControllerDelegate>
 
 @property (nonatomic, retain) UINavigationController *navigation;
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, copy) NSString *name;
 @property (nonatomic, retain) NSMutableDictionary *views; /* obj: view, key: name */
 @property (nonatomic, retain) FCatView *top;
+@property (nonatomic, retain) NSString *image;
+@property (nonatomic, retain) NSString *title;
 
 -(void) setNavigationRoot;
 -(void) moveToView:(NSString*)dest;

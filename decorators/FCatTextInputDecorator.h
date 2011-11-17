@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FCatDecorator.h"
+#import "FCatDecoratorBase.h"
 
-@interface FCatTextInputDecorator : NSObject
+@interface FCatTextInputDecorator : FCatDecoratorBase <FCatDecorator, UITextViewDelegate, UITextFieldDelegate>
+{
+    NSMutableArray *_inputs;
+    UIScrollView *_scrollView;
+    NSString *_scrollerName;
+    UITextField *_currentTextField;
+    UITextView *_currentTextView;
+}
+
+-(void)pushInput;
+-(void)setScrollerName;
+
 
 @end
