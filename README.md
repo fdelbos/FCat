@@ -29,15 +29,24 @@ Here is a simple example:
     
 		<title>CMA</title>
     
-		<group name="default">
+		<group name="welcomeTabBarItem" title="Welcome" image="welcomegroup.png">
         
-			<view class="Accueil" name="accueil" preload="yes">
-            	 <route action="creer" destination="Creer" />
+			<view class="WelcomeView" name="welcome" >
+            	 <route action="userButton" destination="userform"/>
         	</view>
     
-			<view class="Creer" name="creer" title="Creer !"/>
-        
-    	</group>
-        
-	</cat-application>
+			<view class="UserFormView" name="userform" title="User Form">
+				<decorator class="FCatTextInputDecorator">
+					<scroller>SrollView</scroller>
+					<input>Login</input>
+					<input>Email</input>
+					<input>Password</input>
+				</decrator>
+			</view>
 
+    	</group>
+
+		<group name="helpTabBarItem" title="Help" image="helpgroup.png">
+        	<view title="Help" class="FCatWebView" name="help" up="yes" html="cool_html_help_file" />
+		</group>
+	</cat-application>
