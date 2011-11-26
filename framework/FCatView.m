@@ -7,7 +7,6 @@
 //
 
 #import "FCatView.h"
-#import "Accueil.h"
 #import "FCatGroup.h"
 #import "FCatDecorator.h"
 #import <Foundation/NSException.h>
