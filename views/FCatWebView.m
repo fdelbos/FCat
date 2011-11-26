@@ -21,7 +21,6 @@
     {
         self.webView.delegate = self;
         self.webView.scalesPageToFit = YES;
-        self.upButton = NO;
     }
     return self;
 }
@@ -48,6 +47,7 @@
             target:self
             action:@selector(backToTop)];
     self.navigationItem.rightBarButtonItem = top;
+    [top release];
 }
 
 -(void)displayHtml
@@ -70,7 +70,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (upButton == YES)
+    if ([upButton isEqualToString:@"yes"])
         [self setTopButton];
     if (htmlFile)
         [self displayHtml];

@@ -10,6 +10,7 @@
 #import "Accueil.h"
 #import "FCatGroup.h"
 #import "FCatDecorator.h"
+#import <Foundation/NSException.h>
 
 @implementation FCatView
 
@@ -37,11 +38,13 @@
 
 -(void)addMoveAction:(NSString*)control move:(NSString*)dest
 {
-    UIControl *btn = [self.controllerView valueForKey:control];
-    if (btn == nil)
-        [NSException raise:@"FCat: FCatView" 
-                    format:@"UIControl %@ not found in controller of name: %@ !", 
-                    control, self.controllerName];
+    UIControl *btn;
+    @try
+    {
+        btn = [self.controllerView valueForKey:control];
+    } @catch (NSException *e) {
+        return;
+    }
     [btn addTarget:self 
             action:@selector(moveOnSelect:event:) 
   forControlEvents:UIControlEventTouchUpInside];
@@ -62,6 +65,9 @@
 
 - (void)dealloc
 {
+    [decorators release];
+    if(_eventLinks != nil)
+        [_eventLinks release];
     [super dealloc];
 }
 

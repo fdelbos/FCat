@@ -20,9 +20,7 @@
     NSDictionary *_nodesWithAttributes;
     NSDictionary *_nodesWithValue;
     NSDictionary *_attributes;
-    NSMutableDictionary *_fcatViews;
     
-    NSMutableArray *_fcatDecorators;
     id <FCatDecorator> _currentDecorator;
 }
 

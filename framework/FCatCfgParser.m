@@ -29,13 +29,7 @@
                            @"setTextInputScroller", @"textInputScroller",
                            @"addTextInputField", @"textInputField",
                            @"endDecorator", @"decorator",
-                           nil];
-        _fcatViews = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      @"setupWebView", @"FCatWebView", 
-                      nil];
-        
-        _fcatDecorators = [NSMutableArray arrayWithObjects:
-                           @"FCatTextInputDecorator", 
+                           @"addParam", @"param",
                            nil];
         _currentDecorator = nil;
     }
@@ -53,16 +47,17 @@
                             forKey:[_attributes objectForKey:@"action"]];
 }
 
--(void)setupWebView
+
+-(void)addParam
 {
-    NSString *html = [_attributes objectForKey:@"html"];
-    if (html == nil)
-        [NSException raise:@"FCat: FCatCfgParser" 
-                    format:@"FCatWebView should have html attribute: for view name %@", _currentView.name];
-    ((FCatWebView*)_currentView.controllerView).htmlFile = html;
-    NSString *up = [_attributes objectForKey:@"up"];
-    if([up isEqualToString:@"yes"])
-        ((FCatWebView*)_currentView.controllerView).upButton = YES;
+    NSString *param = [_attributes objectForKey:@"name"];
+    if (param != nil)
+    {
+        NSString *v = [_currentString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        [_currentView.controllerView setValue:v forKey:param];
+    }
+    
 }
 
 -(void)addDecorator
@@ -98,12 +93,6 @@
     _currentView.controllerView = c;
     _currentGroup.top = (_currentGroup.top == nil) ? _currentView : _currentGroup.top;
     [_currentGroup.views setObject:_currentView forKey:_currentView.name];
-    NSString *function;
-    if((function = [_fcatViews objectForKey:className]))
-    {
-        SEL selector = NSSelectorFromString(function);
-        [self performSelector:selector];
-    }
 }
 
 -(void)setupGroupRoot

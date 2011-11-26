@@ -41,6 +41,8 @@
 
 - (void)dealloc
 {
+    if (navigation != nil)
+        [navigation release];
     [super dealloc];
 }
 

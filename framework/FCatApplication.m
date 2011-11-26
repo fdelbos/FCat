@@ -54,8 +54,8 @@
 
 - (void)dealloc
 {
-    //[_tabBar release];
-    //[title release];
+    [groups release];
+    [_tabBar release];
     [super dealloc];
 }
 

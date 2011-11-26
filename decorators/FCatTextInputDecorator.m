@@ -117,7 +117,6 @@
     if (_scrollView != nil)
         return;
     _scrollView = [self.controller valueForKey:_scrollerName];
-    
     for (NSString *inputName in _inputs)
     {
         id rawInput = [self.controller valueForKey:inputName];

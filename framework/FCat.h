@@ -17,6 +17,7 @@
 
 +(FCat*) get;
 -(void) startWithFile:(NSString*)configFile andWindow:(UIWindow*) window;
+-(void) stop;
 -(void)moveToView:(NSString*)name;
 -(FCatView*)getViewByName:(NSString*)name;
 

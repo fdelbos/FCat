@@ -56,6 +56,12 @@ static FCat *_instance;
     [parser release];
 }
 
+-(void)stop
+{
+    [_application release];
+    [_instance release];
+}
+
 -(void)moveToView:(NSString*)name
 {
     [[_application getCurrentGroup] moveToView:name];
