@@ -47,6 +47,10 @@ Here is a simple example:
     	</group>
 
 		<group name="helpTabBarItem" title="Help" image="helpgroup.png">
-        	<view title="Help" class="FCatWebView" name="help" up="yes" html="cool_html_help_file" />
+        	<view title="Help" class="FCatWebView" name="help">
+				<param name="upButton">yes</param>
+				<param name="htmlFile">myhtmlfile</param>
+ 			</view>
 		</group>
+		
 	</cat-application>
